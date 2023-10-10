@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: 'hatappgh'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_C7FEC7E33B55404EA81F0DF0E8072553 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_DE37167123D641AD86A1DD4706BD5D7E }}
