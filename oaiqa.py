@@ -26,11 +26,12 @@ def get_answer(question):
     return answer
 
 # Streamlitアプリケーションをセットアップします
-st.title('Azure OpenAI Translation App (Powered by GPT-4)')
+st.title('Azure OpenAI Translation and Q&A App (Powered by GPT-4)')
 
+# 質問の選択肢を定義します
 option = st.selectbox(
    "Select language",
-   ("English to Japanese", "Japanese to English", "none"),
+   ("English to Japanese", "Japanese to English", "Question and Answer"),
    index=None,
    placeholder='Select',
 )
