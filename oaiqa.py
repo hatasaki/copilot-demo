@@ -2,6 +2,7 @@
 import streamlit as st
 import openai
 import os
+import uuid
 
 # Azure OpenAIのAPIキーを設定します
 openai.api_key = os.getenv("AZURE_OPENAI_KEY")
@@ -25,24 +26,25 @@ def get_answer(question):
     return answer
 
 # Streamlitアプリケーションをセットアップします
-st.title('Azure OpenAI Translation App')
+st.title('Azure OpenAI Translation App (Powered by GPT-4)')
 
 option = st.selectbox(
-   "Select language?",
+   "Select language",
    ("English to Japanese", "Japanese to English", "none"),
    index=None,
    placeholder='Select',
 )
 
-st.write('Enter:')
-user_question = st.text_input('Text:')
-if option == "English to Japanese":
-    user_question = "Translate from English to Japanese: " + user_question
-elif option == "Japanese to English":
-    user_question = "Translate from Japanese to English: " + user_question
-else:
-    user_question = user_question
+user_question = st.text_area('Text:', height=100)
 
 if user_question:
+    if option == "English to Japanese":
+        user_question = "Translate from English to Japanese: " + user_question
+    elif option == "Japanese to English":
+        user_question = "Translate from Japanese to English: " + user_question
+    else:
+        user_question = user_question
+
     answer = get_answer(user_question)
-    st.write('Answer:', answer['content'])
+    st.write('Answer:')
+    st.write(answer['content'])
