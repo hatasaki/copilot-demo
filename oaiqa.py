@@ -25,9 +25,24 @@ def get_answer(question):
     return answer
 
 # Streamlitアプリケーションをセットアップします
-st.title('Azure OpenAI Question Answering App')
-st.write('Please enter your question below:')
-user_question = st.text_input('Question:')
+st.title('Azure OpenAI Translation App')
+
+option = st.selectbox(
+   "Select language?",
+   ("English to Japanese", "Japanese to English", "none"),
+   index=None,
+   placeholder='Select',
+)
+
+st.write('Enter:')
+user_question = st.text_input('Text:')
+if option == "English to Japanese":
+    user_question = "Translate from English to Japanese: " + user_question
+elif option == "Japanese to English":
+    user_question = "Translate from Japanese to English: " + user_question
+else:
+    user_question = user_question
+
 if user_question:
     answer = get_answer(user_question)
     st.write('Answer:', answer['content'])
