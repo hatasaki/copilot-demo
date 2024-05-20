@@ -1,15 +1,19 @@
 # 必要なライブラリをインポートします
 import streamlit as st
-import openai
+from openai import AzureOpenAI
 import os
-import uuid
+from dotenv import load_dotenv
+
+load_dotenv(override=True)
+load_dotenv(".env")
 
 # Azure OpenAIのAPIキーを設定します
-openai.api_key = os.getenv("AZURE_OPENAI_KEY")
-openai.api_version = "2023-07-01-preview"
-openai.api_type = "azure"
-openai.api_base = os.getenv("AZURE_OPENAI_ENDPOINT")
-deployname="gpt4-32k"
+client = AzureOpenAI(
+  azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT"), 
+  api_key = os.getenv("AZURE_OPENAI_API_KEY"),  
+  api_version = os.getenv("AZURE_API_VERSION")
+)
+model = os.getenv("AZURE_OPENAI_MODEL")
 
 def get_answer(question):
     # messageにopenaiのchatメッセージを入力します
@@ -17,12 +21,12 @@ def get_answer(question):
     messages = [{"role": "user", "content": question}]
 
     # Azure OpenAIに質問を送信し、応答を取得します
-    response = openai.ChatCompletion.create(
-        engine=deployname,
-        messages=messages
+    response = client.chat.completions.create(
+        model = model,
+        messages = messages
     )
     # 応答からテキストを抽出します
-    answer = response['choices'][0]['message']
+    answer = response.choices[0].message # response['choices'][0]['message']
     return answer
 
 # Streamlitアプリケーションをセットアップします
@@ -48,4 +52,4 @@ if user_question:
 
     answer = get_answer(user_question)
     st.write('Answer:')
-    st.write(answer['content'])
+    st.write(answer.content)
